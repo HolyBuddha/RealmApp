@@ -37,17 +37,20 @@ class TaskListViewController: UITableViewController {
         let completedTasks = taskList.tasks.filter("isComplete = true")
         
         var content = cell.defaultContentConfiguration()
+        
         content.text = taskList.name
         
         if taskList.tasks.count == 0 {
             content.secondaryText = "0"
         } else if completedTasks.count == taskList.tasks.count {
-            cell.accessoryType = UITableViewCell.AccessoryType.checkmark
+            content.image = UIImage(systemName: "checkmark")
+            //cellFromIndex.accessoryType = UITableViewCell.AccessoryType.checkmark
         } else {
             content.secondaryText = "\(currentTasks.count)"
         }
         
         cell.contentConfiguration = content
+     
         return cell
     }
     
