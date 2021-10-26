@@ -55,6 +55,33 @@ class TasksViewController: UITableViewController {
     @objc private func addButtonPressed() {
         showAlert()
     }
+
+// MARK: - UITableViewDelegate
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let task = indexPath.section == 0 ? currentTasks[indexPath.row] : completedTasks[indexPath.row]
+        
+    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
+        StorageManager.shared.delete(task)
+        tableView.deleteRows(at: [indexPath], with: .automatic)
+        print(task)
+    }
+    
+//    let editAction = UIContextualAction(style: .normal, title: "Edit") { _, _, _ in
+//        self.showEditAlert()
+//        tableView.reloadRows(at: [indexPath], with: .automatic)
+//    }
+    
+//    let doneAction = UIContextualAction(style: .normal, title: "Done") {_, _, isDone in
+//        StorageManager.shared.done(taskList)
+//        tableView.reloadRows(at: [indexPath], with: .automatic)
+//        isDone(true)
+//    }
+    
+    //editAction.backgroundColor = .orange
+    //doneAction.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+    
+    return UISwipeActionsConfiguration(actions: [deleteAction])
+}
 }
 
 extension TasksViewController {
@@ -70,11 +97,29 @@ extension TasksViewController {
         present(alert, animated: true)
     }
     
+//    private func showEditAlert() {
+//        
+//        let alert = AlertController.createAlert(withTitle: "Edit Task", andMessage: "What do you want to edit?")
+//        
+//        alert.action { newValue, note in
+//            self.editTask(withName: newValue, andNote: note)
+//        }
+//        
+//        present(alert, animated: true)
+//    }
+    
     private func saveTask(withName name: String, andNote note: String) {
         let task = Task(value: [name, note])
         StorageManager.shared.save(task, to: taskList)
         let rowIndex = IndexPath(row: currentTasks.index(of: task) ?? 0, section: 0)
         tableView.insertRows(at: [rowIndex], with: .automatic)
     }
+    
+//    private func editTask(withName name: String, andNote note: String) {
+//        let task = Task(value: [name, note])
+//        StorageManager.shared.edit(task, to: name, to: note)
+//let rowIndex = IndexPath(row: currentTasks.index(of: task) ?? 0, section: 0)
+//        tableView.insertRows(at: [rowIndex], with: .automatic)
+//    }
 }
 

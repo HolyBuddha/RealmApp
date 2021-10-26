@@ -32,6 +32,7 @@ class TaskListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskListCell", for: indexPath)
+        
         let taskList = taskLists[indexPath.row]
         let currentTasks = taskList.tasks.filter("isComplete = false")
         let completedTasks = taskList.tasks.filter("isComplete = true")
